@@ -1,7 +1,11 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
+import cors from '@fastify/cors'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 
 const server: FastifyInstance = Fastify({})
+server.register(cors, {
+    origin: "http://localhost:3000"
+});
 
 const opts: RouteShorthandOptions = {
     schema: {
@@ -9,8 +13,11 @@ const opts: RouteShorthandOptions = {
             200: {
                 type: 'object',
                 properties: {
-                    pong: {
+                    hoge: {
                         type: 'string'
+                    },
+                    fuga: {
+                        type: 'number'
                     }
                 }
             }
@@ -18,16 +25,22 @@ const opts: RouteShorthandOptions = {
     }
 }
 
-server.get('/ping', opts, async (request, reply) => {
-    return { pong: 'it hello!' }
+
+server.get('/', opts, async (request, reply) => {
+    return {
+        hoge: 'hoge!',
+        fuga: '1111',
+        piyo: 'piyo!'
+    }
 })
 
 const start = async () => {
     try {
-        await server.listen({ port: 3000 })
+        await server.listen({ port: 3001 })
 
         const address = server.server.address()
         const port = typeof address === 'string' ? address : address?.port
+        console.log('running port:', port)
 
     } catch (err) {
         server.log.error(err)
