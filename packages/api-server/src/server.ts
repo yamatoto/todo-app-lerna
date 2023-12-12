@@ -1,6 +1,5 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 import cors from '@fastify/cors'
-import { Server, IncomingMessage, ServerResponse } from 'http'
 
 const server: FastifyInstance = Fastify({})
 server.register(cors, {
@@ -26,7 +25,7 @@ const opts: RouteShorthandOptions = {
 }
 
 
-server.get('/', opts, async (request, reply) => {
+server.get('/', opts, async () => {
     return {
         hoge: 'hoge!',
         fuga: '1111',
