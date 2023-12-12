@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run dev --prefix packages/api-server\" \"npm run dev --prefix packages/app\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,8 +14,8 @@
     "packages/app",
     "packages/api-server"
   ],
-  "dependencies": {},
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "lerna": "^8.0.0"
   }
 }
