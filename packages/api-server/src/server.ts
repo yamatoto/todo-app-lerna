@@ -3,6 +3,7 @@ import cors from '@fastify/cors'
 
 const server: FastifyInstance = Fastify({})
 server.register(cors, {
+    // origin: true
     origin: "http://localhost:3000"
 });
 
@@ -35,7 +36,7 @@ server.get('/', opts, async () => {
 
 const start = async () => {
     try {
-        await server.listen({ port: 3001 })
+        await server.listen({ port: 3001, host: "0.0.0.0" })
 
         const address = server.server.address()
         const port = typeof address === 'string' ? address : address?.port
