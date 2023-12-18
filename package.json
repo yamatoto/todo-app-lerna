@@ -16,6 +16,9 @@
   ],
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "lerna": "^8.0.0"
+    "eslint": "^8.56.0",
+    "lerna": "^8.0.0",
+    "prettier": "^3.1.1",
+    "typesync": "^0.11.1"
   }
 }
