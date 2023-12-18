@@ -1,18 +1,18 @@
 {
   "name": "todo-app-lerna",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix packages/api-server\" \"npm run dev --prefix packages/app\"",
+    "dev": "concurrently \"yarn workspace api-server run dev\" \"yarn workspace app run dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "packages/app",
-    "packages/api-server"
+    "packages/*"
   ],
   "devDependencies": {
     "concurrently": "^8.2.2",
