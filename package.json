@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"yarn workspace api-server run dev\" \"yarn workspace app run dev\"",
+    "prepare:env": "node ./scripts/prepare-env.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,6 +17,7 @@
   ],
   "devDependencies": {
     "concurrently": "^8.2.2",
+    "dotenv": "^16.3.1",
     "eslint": "^8.56.0",
     "lerna": "^8.0.0",
     "prettier": "^3.1.1",
