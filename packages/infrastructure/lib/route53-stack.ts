@@ -10,8 +10,8 @@ export class Route53Stack extends cdk.Stack {
         super(scope, id, props);
 
         const hostedZone = new route53.HostedZone(this, "HostedZone", {
-            zoneName: `${params.zonePrefix}${Constants.domainName}`,
-            comment: `${Constants.systemName}-${params.environmentName}-hostedzone`
+            zoneName: `${params.domainPrefix}${Constants.domainName}`,
+            comment: `${Constants.systemName}-${params.envName}-hostedzone`
         });
 
         if (infraConfig.envName === "production") {
@@ -34,40 +34,41 @@ export class Route53Stack extends cdk.Stack {
         }
 
         // Outputs
+        const exportNamePrefix = `${Constants.systemName}-${id}`;
         new cdk.CfnOutput(this, "HostedZoneOutPut", {
             value: hostedZone.hostedZoneId,
-            exportName: `${Constants.systemName}-${id}-HostedZone`
+            exportName: `${exportNamePrefix}-HostedZone`
         });
 
         new cdk.CfnOutput(this, "HostedZoneDomainNameOutPut", {
             value: hostedZone.zoneName,
-            exportName: `${Constants.systemName}-${id}-HostedZoneDomainName`
+            exportName: `${exportNamePrefix}-HostedZoneDomainName`
         });
 
         const nsArray = hostedZone.hostedZoneNameServers as string[];
         new cdk.CfnOutput(this, "HostedZoneNameServersOutPut", {
             value: cdk.Fn.join(",", nsArray),
-            exportName: `${Constants.systemName}-${id}-HostedZoneNameServers`
+            exportName: `${exportNamePrefix}-HostedZoneNameServers`
         });
     }
 }
 
 type StackParams = {
-    environmentName: string;
-    zonePrefix: string;
+    envName: string;
+    domainPrefix: string;
 };
 const StackEnvParams: StackEnvironmentParams<StackParams> = {
     development: {
-        environmentName: "dev",
-        zonePrefix: "dev."
+        envName: Constants.envName.dev,
+        domainPrefix: Constants.domainPrefix.dev
     },
     staging: {
-        environmentName: "stg",
-        zonePrefix: "stg."
+        envName: Constants.envName.stg,
+        domainPrefix: Constants.domainPrefix.stg
     },
     production: {
-        environmentName: "prod",
-        zonePrefix: ""
+        envName: Constants.envName.prod,
+        domainPrefix: Constants.domainPrefix.prod
     }
 };
 
