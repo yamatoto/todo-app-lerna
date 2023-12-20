@@ -5,39 +5,6 @@ import { infraConfig } from "./config";
 import { StackEnvironmentParams } from "./type";
 import { Constants } from "./constants";
 
-export class AcmStack extends cdk.Stack {
-    constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-        super(scope, id, props);
-
-        const certificateDomainName = `${params.domainPrefix}${Constants.domainName}`;
-        const certificateSubjectAlternativeName = `*.${params.domainPrefix}${Constants.domainName}`;
-        const certificate = new acm.Certificate(this, "Certificate", {
-            domainName: certificateDomainName,
-            subjectAlternativeNames: [certificateSubjectAlternativeName],
-            validation: acm.CertificateValidation.fromDns()
-        });
-        cdk.Tags.of(certificate).add(
-            "Name",
-            `${Constants.systemName}-${params.envName}-certificate-${props?.env?.region}}`
-        );
-
-        // Outputs
-        const exportNamePrefix = `${Constants.systemName}-${id}`;
-        new cdk.CfnOutput(this, "CertificateOutPut", {
-            value: certificate.certificateArn,
-            exportName: `${exportNamePrefix}-HostedZone`
-        });
-        new cdk.CfnOutput(this, "CertificateDomainNameOutPut", {
-            value: certificateDomainName,
-            exportName: `${exportNamePrefix}-CertificateDomainName`
-        });
-        new cdk.CfnOutput(this, "CertificateSubjectAlternativeNamesOutPut", {
-            value: certificateSubjectAlternativeName,
-            exportName: `${exportNamePrefix}-CertificateSubjectAlternativeName`
-        });
-    }
-}
-
 type StackParams = {
     envName: string;
     domainPrefix: string;
@@ -63,3 +30,25 @@ const params =
         : infraConfig.envName === "staging"
           ? StackEnvParams.staging
           : StackEnvParams.development;
+
+export class AcmStack extends cdk.Stack {
+    constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+        super(scope, id, props);
+
+        const certificateDomainName = `${params.domainPrefix}${Constants.domainName}`;
+        const certificateSubjectAlternativeName = `*.${params.domainPrefix}${Constants.domainName}`;
+        const certificate = new acm.Certificate(this, "Certificate", {
+            domainName: certificateDomainName,
+            subjectAlternativeNames: [certificateSubjectAlternativeName],
+            validation: acm.CertificateValidation.fromDns(),
+            certificateName: `${Constants.systemName}-${params.envName}-certificate-${props?.env?.region}`
+        });
+
+        // Outputs
+        const exportNamePrefix = `${Constants.systemName}-${id}`;
+        new cdk.CfnOutput(this, "CertificateOutPut", {
+            value: certificate.certificateArn,
+            exportName: `${exportNamePrefix}-Certificate`
+        });
+    }
+}

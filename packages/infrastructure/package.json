@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy-cdk:prod": "ENV_NAME=production cdk deploy --all --no-execute"
+    "deploy-cdk:prod": "ENV_NAME=production cdk deploy --require-approval never --all --no-execute"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
