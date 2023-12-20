@@ -4,3 +4,5 @@ export type StackEnvironmentParams<T> = {
     staging: T;
     production: T;
 };
+
+export type Az = "a" | "c" | "d";

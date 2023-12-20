@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import { Az } from "./type";
 dotenv.config();
 
 type Constants = {
@@ -15,6 +16,7 @@ type Constants = {
         stg: string;
         prod: string;
     };
+    azList: Az[];
 };
 
 export const Constants: Constants = {
@@ -30,5 +32,6 @@ export const Constants: Constants = {
         dev: "dev.",
         stg: "stg.",
         prod: ""
-    }
+    },
+    azList: ["a", "c", "d"]
 };
